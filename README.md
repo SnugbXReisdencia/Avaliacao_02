@@ -4,7 +4,7 @@ convencer os programadores da empresa de
 pesquisas estatísticas DataFruta a utilizar técnicas melhores de 
 programação.
 
-#### Praticar O aprendizado durante a Residencia nos seguintes pontos:
+#### Praticar o aprendizado adquirido durante a residência nos seguintes pontos:
 * Polimorfismo
 * Classes Abstratas
 * Interfaces
