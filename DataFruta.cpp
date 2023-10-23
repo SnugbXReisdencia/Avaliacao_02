@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,9 +10,9 @@ class Data {
 	public:
 	
 	/*
-	O método abaixo retornará -1 se d1 é anterior a d2
-	Retornará 0 se d1 = d2
-	Retornará +1 se d1 é posterior a d2
+	O mï¿½todo abaixo retornarï¿½ -1 se d1 ï¿½ anterior a d2
+	Retornarï¿½ 0 se d1 = d2
+	Retornarï¿½ +1 se d1 ï¿½ posterior a d2
 	*/	
 	static int compara(Data d1, Data d2) { 
 		return 0;
@@ -47,9 +48,9 @@ class ListaNomes {
 	public:
 	
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		lista.push_back("Teste");
@@ -73,9 +74,9 @@ class ListaDatas  {
 	public:
 		
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -99,9 +100,9 @@ class ListaSalarios  {
 	public:
 	
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -120,29 +121,43 @@ class ListaSalarios  {
 };
 
 
-class ListaIdades  {
+class ListaIdades : public Lista {
 	vector<int> lista;
 	
 	public:
 		
 		/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
-		
+		lista.clear();
+		int quantidade;
+		cout<<"Quantos elementos vao existir na lista de idades: ";
+		cin>>quantidade;
+		for(int i = 1; i <= quantidade; i++){
+			cout<<"Valor "<<i<<": ";
+			int valor;
+			cin>>valor;
+			lista.push_back(valor);
+		}
+
+		sort(lista.begin(), lista.end());
 	}
 	
 	void mostraMediana() {
-		cout << "Aqui vai mostrar a mediana da lista de idades" << endl;
+		int mediana;
+		if(lista.size() % 2 == 0) mediana = (lista[lista.size() / 2 - 1] + lista[lista.size() / 2]) / 2;
+		else mediana = lista[lista.size() / 2];
+		cout <<"Mediana de idades = " << mediana << endl;
 	}
 	
 	void mostraMenor() {
-		cout << "Aqui vai mostrar a menor das idades" << endl;
+		cout << "Menor valor na lista de idades = "<<lista[0] << endl;
 	}
 	void mostraMaior() {
-		cout << "aqui vai mostrar a maior das idades" << endl;
+		cout << "Maior valor na lista de idades = " <<lista[lista.size()-1]<< endl;
 	}
 };
  
