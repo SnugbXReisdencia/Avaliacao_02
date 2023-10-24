@@ -1,6 +1,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
@@ -9,9 +10,9 @@ class Data {
 	public:
 	
 	/*
-	O método abaixo retornará -1 se d1 é anterior a d2
-	Retornará 0 se d1 = d2
-	Retornará +1 se d1 é posterior a d2
+	O mï¿½todo abaixo retornarï¿½ -1 se d1 ï¿½ anterior a d2
+	Retornarï¿½ 0 se d1 = d2
+	Retornarï¿½ +1 se d1 ï¿½ posterior a d2
 	*/	
 	static int compara(Data d1, Data d2) { 
 		return 0;
@@ -39,31 +40,84 @@ class Lista {
 	virtual void mostraMediana() =0;
 	virtual void mostraMenor() =0;
 	virtual void mostraMaior() =0;
+	virtual void listarEmOrdem() =0;
 };
 
-class ListaNomes {
+class ListaNomes : public Lista {
 	vector<string> lista;
 	
 	public:
 	
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
-	void entradaDeDados() {
-		lista.push_back("Teste");
+	void entradaDeDados() override {
+		cout << "Quantos nomes deseja inserir?" << endl;
+		int num;
+		cin >> num;
+		for (int i = 0; i < num; i++) {
+			string nome;
+			cout << "Digite o " << i+1 << " nome: " << endl; cin >> nome;
+			lista.push_back(nome);
+		}
 	}
 		
-	void mostraMediana() {
-		cout << "Aqui vai mostrar a mediana da lista de strings" << endl;
+	void mostraMediana() override {
+		if(lista.empty()) {
+			cout << "A lista esta vazia. Nao ha mediana a ser mostrada." << endl;
+			return;
+		}		
+		string nomeMediana;
+		int media=0;
+		int tamanho = lista.size();
+		if (tamanho % 2 == 0) {
+			media = tamanho / 2 - 1;
+			cout << "A mediana e " <<  media;
+			cout << " com o nome  " << lista[media] << endl;
+		}
+		else {
+			media = tamanho / 2;
+			cout << "A mediana e " <<  media ;
+			cout << " com o nome  " << lista[media] << endl;			
+		}
 	}
 	
-	void mostraMenor() {
-		cout << "Aqui vai mostrar o primeiro nome alfabeticamente" << endl;
+	void mostraMenor() override {
+		if (lista.empty()) {
+			cout << "A lista esta vazia. Nao ha nome a ser mostrado." << endl;
+			return;
+		}
+		string menorNome = lista[0];
+		for (const string& nome : lista) {
+			if (nome < menorNome) {
+				menorNome = nome;
+			}
+		}
+		cout << "O Menor nome alfabeticamente e: " << menorNome << endl;
+
+	
 	}
-	void mostraMaior() {
-		cout << "aqui vai mostrar o ultimo nome alfabeticamente" << endl;
+	void mostraMaior() override {
+		if (lista.empty()) {
+        cout << "A lista esta vazia. Nao ha nome a ser mostrado." << endl;
+        return;
+		}
+		string maiorNome = lista[0];
+		for (const string& nome : lista) {
+			if (nome > maiorNome) {
+				maiorNome = nome;
+			}
+		}
+		cout << "O Maior nome alfabeticamente e: " << maiorNome << endl;
+	}
+
+	void listarEmOrdem() override {
+		sort(lista.begin(), lista.end());
+		for (const string& nome : lista) {
+			cout << nome << endl;
+		}
 	}
 };
 
@@ -73,9 +127,9 @@ class ListaDatas  {
 	public:
 		
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -99,9 +153,9 @@ class ListaSalarios  {
 	public:
 	
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -126,9 +180,9 @@ class ListaIdades  {
 	public:
 		
 		/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -152,18 +206,22 @@ int main () {
 	ListaNomes listaNomes;
 	listaNomes.entradaDeDados();
 	listaDeListas.push_back(&listaNomes);
+
 	
-	ListaDatas listaDatas;
-	listaDatas.entradaDeDados();
-	listaDeListas.push_back(&listaDatas);
+
 	
-	ListaSalarios listaSalarios;
-	listaSalarios.entradaDeDados();
-	listaDeListas.push_back(&listaSalarios);
 	
-	ListaIdades listaIdades;
-	listaIdades.entradaDeDados();
-	listaDeListas.push_back(&listaIdades);
+	// ListaDatas listaDatas;
+	// listaDatas.entradaDeDados();
+	// listaDeListas.push_back(&listaDatas);
+	
+	// ListaSalarios listaSalarios;
+	// listaSalarios.entradaDeDados();
+	// listaDeListas.push_back(&listaSalarios);
+	
+	// ListaIdades listaIdades;
+	// listaIdades.entradaDeDados();
+	// listaDeListas.push_back(&listaIdades);
 	
 	for (Lista* l : listaDeListas) {
 		l->mostraMediana();
