@@ -131,35 +131,42 @@ class ListaIdades : public Lista {
 	elementos v�o existir na lista e depois
 	solicita a digita��o de cada um deles
 	*/	
-	void entradaDeDados() {
-		lista.clear();
-		int quantidade;
-		cout<<"Quantos elementos vao existir na lista de idades: ";
-		cin>>quantidade;
-		for(int i = 1; i <= quantidade; i++){
-			cout<<"Valor "<<i<<": ";
-			int valor;
-			cin>>valor;
-			lista.push_back(valor);
-		}
-
-		sort(lista.begin(), lista.end());
-	}
-	
-	void mostraMediana() {
-		int mediana;
-		if(lista.size() % 2 == 0) mediana = (lista[lista.size() / 2 - 1] + lista[lista.size() / 2]) / 2;
-		else mediana = lista[lista.size() / 2];
-		cout <<"Mediana de idades = " << mediana << endl;
-	}
-	
-	void mostraMenor() {
-		cout << "Menor valor na lista de idades = "<<lista[0] << endl;
-	}
-	void mostraMaior() {
-		cout << "Maior valor na lista de idades = " <<lista[lista.size()-1]<< endl;
-	}
+	void entradaDeDados();
+	void mostraMediana();
+	void mostraMenor() ;
+	void mostraMaior();
 };
+
+void ListaIdades::entradaDeDados(){
+	lista.clear();
+	int quantidade;
+	cout<<"Quantos elementos vao existir na lista de idades: ";
+	cin>>quantidade;
+	for(int i = 1; i <= quantidade; i++){
+		cout<<"Valor "<<i<<": ";
+		int valor;
+		cin>>valor;
+		lista.push_back(valor);
+	}
+}
+
+void ListaIdades::mostraMediana(){
+	if(!is_sorted(lista.begin(), lista.end())) sort(lista.begin(), lista.end());
+	int mediana;
+	if(lista.size() % 2 == 0) mediana = (lista[lista.size() / 2 - 1] + lista[lista.size() / 2]) / 2;
+	else mediana = lista[lista.size() / 2];
+	cout <<"Mediana de idades = " << mediana << endl;
+}
+
+void ListaIdades::mostraMenor(){
+	if(!is_sorted(lista.begin(), lista.end())) sort(lista.begin(), lista.end());
+	cout << "Menor valor na lista de idades = "<<lista[0] << endl;
+}
+
+void ListaIdades::mostraMaior(){
+	if(!is_sorted(lista.begin(), lista.end())) sort(lista.begin(), lista.end());
+	cout << "Maior valor na lista de idades = " <<lista[lista.size()-1]<< endl;
+}
  
 int main () {
 	vector<Lista*> listaDeListas;
