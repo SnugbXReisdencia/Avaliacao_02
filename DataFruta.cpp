@@ -1,32 +1,45 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <algorithm>
 
 using namespace std;
 
 class Data {
-	int dia, mes, ano;
+	private:
+		int dia, mes, ano;
 	public:
 	
 	/*
-	O método abaixo retornará -1 se d1 é anterior a d2
-	Retornará 0 se d1 = d2
-	Retornará +1 se d1 é posterior a d2
+	O mï¿½todo abaixo retornarï¿½ -1 se d1 ï¿½ anterior a d2
+	Retornarï¿½ 0 se d1 = d2
+	Retornarï¿½ +1 se d1 ï¿½ posterior a d2
 	*/	
-	static int compara(Data d1, Data d2) { 
-		return 0;
-	}
+	static int compara(Data d1, Data d2);
+ 
+	static void retorno_comparacao(Data d1, Data d2);
 	
-	Data (int _dia, int _mes, int _ano) {
-		dia = _dia;
-		mes = _mes;
-		ano = _ano;
-	}
+	Data (){dia=0; mes=0; ano=0;}
+	Data (int _dia, int _mes, int _ano) {dia = _dia;mes = _mes;ano = _ano;}
+	
+	int getDia(){return dia;}
+    void setDia(int _dia){dia = _dia;}
+
+	int getMes(){return mes;}
+    void setMes(int _mes){mes = _mes;}
+
+    int getAno(){return ano;}
+    void setAno(int _ano){ano = _ano;}
+
+	bool valida_data();	
+
 	string toString() {
 		string ret = "";
-		ret.append(to_string(dia));
+		string str_dia = to_string(dia);
+		string str_mes = to_string(mes);
+		ret.append(str_dia.size() == 1 ? "0"+str_dia : str_dia);
 		ret.append("/");
-		ret.append(to_string(mes));
+		ret.append(str_mes.size() == 1 ? "0"+str_mes : str_mes);
 		ret.append("/");
 		ret.append(to_string(ano));
 		return ret;
@@ -39,7 +52,38 @@ class Lista {
 	virtual void mostraMediana() =0;
 	virtual void mostraMenor() =0;
 	virtual void mostraMaior() =0;
+	virtual void  listarEmOrdem() =0;
+	virtual ~Lista() {}
 };
+
+class ListaDatas: public Lista {
+	private:
+		vector<Data> lista;
+	
+	public:
+		
+	/*
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
+	*/	
+	void entradaDeDados() override;
+
+    vector<Data> getLista() const {
+        return lista;
+    }
+
+    void setLista(const vector<Data>& newLista) {
+        lista = newLista;
+    }
+	
+	void ordenacao();
+	void mostraMediana() override;
+	void mostraMenor() override;
+	void mostraMaior() override;
+	void listarEmOrdem() override;
+};
+
 
 class ListaNomes {
 	vector<string> lista;
@@ -47,9 +91,9 @@ class ListaNomes {
 	public:
 	
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		lista.push_back("Teste");
@@ -67,31 +111,6 @@ class ListaNomes {
 	}
 };
 
-class ListaDatas  {
-	vector<Data> lista;
-	
-	public:
-		
-	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
-	*/	
-	void entradaDeDados() {
-		
-	}
-	
-	void mostraMediana() {
-		cout << "Aqui vai mostrar a mediana da lista de datas" << endl;
-	}
-	
-	void mostraMenor() {
-		cout << "Aqui vai mostrar a primeira data cronologicamente" << endl;
-	}
-	void mostraMaior() {
-		cout << "aqui vai mostrar a ultima data cronologicamente" << endl;
-	}
-};
 
 class ListaSalarios  {
 	vector<float> lista;
@@ -99,9 +118,9 @@ class ListaSalarios  {
 	public:
 	
 	/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -126,9 +145,9 @@ class ListaIdades  {
 	public:
 		
 		/*
-	O método abaixo pergunta ao usuários quantos
-	elementos vão existir na lista e depois
-	solicita a digitação de cada um deles
+	O mï¿½todo abaixo pergunta ao usuï¿½rios quantos
+	elementos vï¿½o existir na lista e depois
+	solicita a digitaï¿½ï¿½o de cada um deles
 	*/	
 	void entradaDeDados() {
 		
@@ -148,29 +167,198 @@ class ListaIdades  {
  
 int main () {
 	vector<Lista*> listaDeListas;
+
 	
-	ListaNomes listaNomes;
-	listaNomes.entradaDeDados();
-	listaDeListas.push_back(&listaNomes);
+	// ListaNomes listaNomes;
+	// listaNomes.entradaDeDados();
+	// listaDeListas.push_back(&listaNomes);
 	
+	Data data(12,11,1999);
+	Data data2(10,12,1990);
+	// Data::retorno_comparacao(data, data2);
+
 	ListaDatas listaDatas;
 	listaDatas.entradaDeDados();
 	listaDeListas.push_back(&listaDatas);
+
+	listaDatas.mostraMenor();
+	listaDatas.mostraMaior();
+	listaDatas.mostraMediana();
+	listaDatas.ordenacao();
+
+
 	
-	ListaSalarios listaSalarios;
-	listaSalarios.entradaDeDados();
-	listaDeListas.push_back(&listaSalarios);
+	// ListaSalarios listaSalarios;
+	// listaSalarios.entradaDeDados();
+	// listaDeListas.push_back(&listaSalarios);
 	
-	ListaIdades listaIdades;
-	listaIdades.entradaDeDados();
-	listaDeListas.push_back(&listaIdades);
+	// ListaIdades listaIdades;
+	// listaIdades.entradaDeDados();
+	// listaDeListas.push_back(&listaIdades);
 	
-	for (Lista* l : listaDeListas) {
-		l->mostraMediana();
-		l->mostraMenor();
-		l->mostraMaior();
-	}
+	
+	// for (Lista* l : listaDeListas) {
+	// 	l->mostraMediana();
+	// 	l->mostraMenor();
+	// 	l->mostraMaior();
+	// }
 	
 }
-    
+void ListaDatas::entradaDeDados(){
+	Data data;
+	int dia, mes, ano;
+	int numElementos;
 
+	do{
+		cout << "Quantos elementos na lista? ";
+		cin >> numElementos;
+
+	}while(numElementos <= 0);
+
+	for(int i = 0; i <numElementos; i++){
+		cout << "Data " << i+1 <<" :"<< endl;
+
+		cout << "digite o dia (00)" << endl;
+		cin >> dia;
+
+		cout << "digite o mes (00)" << endl;
+		cin >> mes;
+
+		cout << "digite o ano (0000)" << endl;
+		cin >> ano;
+	
+		data.setDia(dia);
+		data.setMes(mes);
+		data.setAno(ano);
+
+		if(!data.valida_data()){
+			cout << "Data invalida, digite novamento." << endl;
+			i--;
+		}else{
+			lista.push_back(data);
+		}
+	}
+};
+
+bool Data::valida_data(){
+	if((getDia() >= 1 && getDia() <= 30 ) && (getMes() == 4||getMes() == 6 || getMes() ==9 || getMes() ==7 || getMes() ==11)){
+
+	}
+	else if((getDia() >= 1 && getDia() <= 31 ) && (getMes() == 1||getMes() == 3 || getMes() ==5 || getMes() ==7 || getMes() ==8 || getMes() ==10 || getMes() ==12)){
+
+	}
+	else if((getDia() >= 1 && getDia() <= 28 ) && (getMes() == 2)){
+
+	}
+	else if(getDia() >= 29 && getMes() == 2 && (getAno() % 400 == 0 || getAno() % 4 == 0 && getAno() % 100 !=0)){
+
+	}else{
+		return false;
+	}
+		
+	return true;
+
+}
+
+int Data::compara(Data d1, Data d2) {
+	if (d1.ano < d2.ano){
+		return -1;
+	}else if (d1.ano > d2.ano){
+		return 1;
+	}else {
+		if (d1.mes < d2.mes){
+			return -1;
+		}else if (d1.mes > d2.mes){
+			return 1;
+		}else {
+			if (d1.dia < d2.dia)
+				return -1;
+			else if (d1.dia > d2.dia)
+				return 1;
+			else
+				return 0; 
+		}
+	}
+}
+
+void Data::retorno_comparacao(Data d1, Data d2){
+	int resultado = Data::compara(d1,d2);
+
+    if (resultado == -1)
+        cout << "A primeira data e menor que a segunda data." << endl;
+    else if (resultado == 1)
+        cout << "A primeira data e maior que a segunda data." << endl;
+    else
+        cout << "As datas sao iguais." << endl;
+}
+
+void ListaDatas::ordenacao(){
+	int n = lista.size();
+    Data aux;
+
+    for (int i = 0; i < n - 1; i++) {
+        int indiceMenor = i;
+        for (int j = i + 1; j < n; j++) {
+            // ComparaÃ§Ã£o de datas
+            if (lista[j].getAno() < lista[indiceMenor].getAno() ||
+                (lista[j].getAno() == lista[indiceMenor].getAno() &&
+                 (lista[j].getMes() < lista[indiceMenor].getMes() ||
+                  (lista[j].getMes() == lista[indiceMenor].getMes() &&
+                   lista[j].getDia() < lista[indiceMenor].getDia())))) {
+                indiceMenor = j;
+            }
+        }
+
+        if (indiceMenor != i) {
+            aux = lista[i];
+            lista[i] = lista[indiceMenor];
+            lista[indiceMenor] = aux;
+        }
+    }
+	for (int i = 0; i < n; i++) {
+        cout << lista[i].toString() << endl; // Assumindo que vocÃª tem um mÃ©todo toString em sua classe Data
+    }
+	
+}
+
+void ListaDatas::mostraMediana(){
+	int tam = lista.size();
+	Data dataMediana;
+	this->ordenacao();
+	
+	dataMediana = lista[(tam/2)];
+
+	cout <<"Data Mediana: "<< dataMediana.toString() << endl;
+}
+
+void ListaDatas::mostraMenor() {
+	Data menorData = lista[0];
+	for(Data data : lista){
+		if(data.getAno() < menorData.getAno() || (data.getAno() == menorData.getAno() && 
+			(data.getMes() < menorData.getMes() || data.getMes() == menorData.getMes() && data.getDia() < menorData.getDia()))){
+			menorData = data;
+		
+		}
+	}
+	cout <<"Data Menor: "<< menorData.toString() << endl;
+}
+void ListaDatas::mostraMaior() {
+	Data maiorData = lista[0];
+	for(Data data : lista){
+		if(data.getAno() > maiorData.getAno() || (data.getAno() == maiorData.getAno() && 
+			(data.getMes() > maiorData.getMes() || data.getMes() == maiorData.getMes() && data.getDia() > maiorData.getDia()))){
+			maiorData = data;
+		
+		}
+	}
+	cout <<"Data Maior: "<< maiorData.toString() << endl;
+
+}
+
+void ListaDatas::listarEmOrdem(){
+	int tam = lista.size();
+	this->ordenacao();
+	for(int i = tam - 1; i >= 0; --i){
+		cout << lista[i].toString() << endl;
+	}
+}
