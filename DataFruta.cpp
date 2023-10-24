@@ -158,7 +158,6 @@ class ListaSalarios : public Lista {
 			cin >> valor;
 			lista.push_back(valor);
 		}
-		quicksort<float>(lista, 0, lista.size() - 1);
 	}
 			
 	void mostraMediana() override {
@@ -287,6 +286,12 @@ int main () {
 		if(typeid(*l) == typeid(ListaSalarios)) {
 			cout << "Tamanho: " << l->size() << endl;
 			cout << "Itens: " << endl;
+			l->listar_N_elementos(l->size());
+			cout << "------------------------------------" << endl;
+			cout << "'N' Primeiros da Lista (teste N = 3):" << endl;
+			l->listar_N_elementos(3);
+			cout << "------------------------------------" << endl;
+			cout << "Itens ordenados :" << endl;
 			l->listarEmOrdem();
 			cout << "------------------------------------" << endl;
 			cout << "Dados da lista de salarios: " << endl;
