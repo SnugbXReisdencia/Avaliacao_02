@@ -40,6 +40,9 @@ class Lista {
 	virtual void mostraMediana() =0;
 	virtual void mostraMenor() =0;
 	virtual void mostraMaior() =0;
+	virtual void listarEmOrdem() = 0;
+	virtual void listar_N_elementos(int) =0;
+	virtual int size() =0;
 };
 
 class ListaNomes {
@@ -131,10 +134,13 @@ class ListaIdades : public Lista {
 	elementos v�o existir na lista e depois
 	solicita a digita��o de cada um deles
 	*/	
-	void entradaDeDados();
-	void mostraMediana();
-	void mostraMenor() ;
-	void mostraMaior();
+	void entradaDeDados() override;
+	void mostraMediana() override;
+	void mostraMenor() override;
+	void mostraMaior() override;
+	virtual void listarEmOrdem() override;
+	void listar_N_elementos(int) override;
+	int size() override;
 };
 
 void ListaIdades::entradaDeDados(){
@@ -151,21 +157,45 @@ void ListaIdades::entradaDeDados(){
 }
 
 void ListaIdades::mostraMediana(){
-	if(!is_sorted(lista.begin(), lista.end())) sort(lista.begin(), lista.end());
+	vector<int> listaOrdenada = lista;
+	sort(listaOrdenada.begin(), listaOrdenada.end());
 	int mediana;
-	if(lista.size() % 2 == 0) mediana = (lista[lista.size() / 2 - 1] + lista[lista.size() / 2]) / 2;
-	else mediana = lista[lista.size() / 2];
+	if(size() % 2 == 0) mediana = (listaOrdenada[size() / 2 - 1] + listaOrdenada[size() / 2]) / 2;
+	else mediana = listaOrdenada[size() / 2];
 	cout <<"Mediana de idades = " << mediana << endl;
 }
 
 void ListaIdades::mostraMenor(){
-	if(!is_sorted(lista.begin(), lista.end())) sort(lista.begin(), lista.end());
-	cout << "Menor valor na lista de idades = "<<lista[0] << endl;
+	int menor = lista[0];
+	for(int i = 1; i < size(); i++) 
+		if(lista[i] < menor) menor = lista[i];
+
+	cout<<"Menor valor de idade = "<<menor<<endl;
 }
 
 void ListaIdades::mostraMaior(){
-	if(!is_sorted(lista.begin(), lista.end())) sort(lista.begin(), lista.end());
-	cout << "Maior valor na lista de idades = " <<lista[lista.size()-1]<< endl;
+	int maior = lista[0];
+	for(int i = 1; i < size(); i++) 
+		if(lista[i] > maior) maior = lista[i];
+
+	cout<<"Maior valor de idade = "<<maior<<endl;
+}
+
+void ListaIdades::listarEmOrdem(){
+	vector<int> listaOrdenada = lista;
+	sort(listaOrdenada.begin(), listaOrdenada.end());
+	cout<<"Lista de idades ordenada:"<<endl;
+	for(int idade : listaOrdenada) cout<<idade<<endl;
+}
+
+void ListaIdades::listar_N_elementos(int n){
+	if(n > size()) n = size();
+	cout<<"Listando os "<<n<<" primeiros elementos da lista de idades:"<<endl;
+	for(int i = 0; i < n; i++) cout<<lista[i]<<endl;
+}
+
+int ListaIdades::size(){
+	return lista.size();
 }
  
 int main () {
@@ -191,6 +221,8 @@ int main () {
 		l->mostraMediana();
 		l->mostraMenor();
 		l->mostraMaior();
+		l->listarEmOrdem();
+		l->listar_N_elementos(5);
 	}
 	
 }
