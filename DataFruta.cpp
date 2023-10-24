@@ -123,31 +123,40 @@ public:
 	}
 };
 
-// class ListaDatas  {
-// 	vector<Data> lista;
+class ListaDatas : public Lista
+{
+	// vector<Data> lista;
 
-// 	public:
+public:
+	/*
+	O m�todo abaixo pergunta ao usu�rios quantos
+	elementos v�o existir na lista e depois
+	solicita a digita��o de cada um deles
+	*/
+	void entradaDeDados()
+	{
+	}
 
-// 	/*
-// 	O m�todo abaixo pergunta ao usu�rios quantos
-// 	elementos v�o existir na lista e depois
-// 	solicita a digita��o de cada um deles
-// 	*/
-// 	void entradaDeDados() {
+	void mostraMediana()
+	{
+		cout << "Aqui vai mostrar a mediana da lista de datas" << endl;
+	}
 
-// 	}
+	void mostraMenor()
+	{
+		cout << "Aqui vai mostrar a primeira data cronologicamente" << endl;
+	}
+	void mostraMaior()
+	{
+		cout << "aqui vai mostrar a ultima data cronologicamente" << endl;
+	}
 
-// 	void mostraMediana() {
-// 		cout << "Aqui vai mostrar a mediana da lista de datas" << endl;
-// 	}
+	void listarEmOrdem() override{}
 
-// 	void mostraMenor() {
-// 		cout << "Aqui vai mostrar a primeira data cronologicamente" << endl;
-// 	}
-// 	void mostraMaior() {
-// 		cout << "aqui vai mostrar a ultima data cronologicamente" << endl;
-// 	}
-// };
+	void listar_N_elementos(int n) override{}
+
+	int size() override{}
+};
 class ListaSalarios : public Lista
 {
 	vector<float> lista;
@@ -173,7 +182,7 @@ public:
 	void listar_N_elementos(int n) override;
 };
 
-class ListaIdades
+class ListaIdades : public Lista
 {
 	vector<int> lista;
 
@@ -200,7 +209,17 @@ solicita a digita��o de cada um deles
 	{
 		cout << "aqui vai mostrar a maior das idades" << endl;
 	}
+
+	void listarEmOrdem() override{}
+
+	void listar_N_elementos(int n) override{}
+
+	int size() override{}
 };
+
+int menuPrincipal();
+int menuTipoLista(string);
+int menuVisualizarLista(string str);
 
 //// FUNCAO de Utilidade ////
 void limpaTela();
@@ -208,51 +227,356 @@ void pause();
 
 int main()
 {
-	limpaTela();
 	vector<Lista *> listaDeListas;
+	ListaDatas aux_ListaDatas;
+	ListaNomes aux_ListaNomes;
+	ListaSalarios aux_ListaSalario;
+	ListaIdades aux_ListaIdades;
 
-	ListaNomes listaNomes;
-	listaNomes.entradaDeDados();
-	listaDeListas.push_back(&listaNomes);
+	int opcao, opc, opc2, aux_Int, aux_Int2;
 
-	// ListaDatas listaDatas;
-	// listaDatas.entradaDeDados();
-	// listaDeListas.push_back(&listaDatas);
-
-	ListaSalarios listaSalarios;
-	listaSalarios.entradaDeDados();
-	listaDeListas.push_back(&listaSalarios);
-
-	// ListaIdades listaIdades;
-	// listaIdades.entradaDeDados();
-	// listaDeListas.push_back(&listaIdades);
-	limpaTela();
-	cout << "################## Lista de salarios ################## " << endl;
-	for (Lista *l : listaDeListas)
+	do
 	{
-		if (typeid(*l) == typeid(ListaSalarios))
+		opcao = menuPrincipal();
+		switch (opcao)
 		{
-			cout << "Tamanho: " << l->size() << endl;
-			cout << "Itens: " << endl;
-			l->listar_N_elementos(l->size());
-			cout << "------------------------------------" << endl;
-			cout << "'N' Primeiros da Lista (teste N = 3):" << endl;
-			l->listar_N_elementos(3);
-			cout << "------------------------------------" << endl;
-			cout << "Itens ordenados :" << endl;
-			l->listarEmOrdem();
-			cout << "------------------------------------" << endl;
-			cout << "Dados da lista de salarios: " << endl;
-			l->mostraMediana();
-			l->mostraMenor();
-			l->mostraMaior();
-		}
-	}
-	cout << "+========================================================+" << endl;
+		case 1:
+			do
+			{
+				opc = menuTipoLista("####### Registro de Lista #######");
+				switch (opc)
+				{
+				case 1:
+					limpaTela();
+					aux_ListaDatas.entradaDeDados();
+					listaDeListas.push_back(&aux_ListaDatas);
+					cout << "Registro adicionado com sucesso!" << endl;
+					pause();
+					break;
+				case 2:
+					limpaTela();
+					aux_ListaNomes.entradaDeDados();
+					listaDeListas.push_back(&aux_ListaNomes);
+					cout << "Registro adicionado com sucesso!" << endl;
+					pause();
+					break;
+				case 3:
+					limpaTela();
+					aux_ListaSalario.entradaDeDados();
+					listaDeListas.push_back(&aux_ListaSalario);
+					cout << "Registro adicionado com sucesso!" << endl;
+					pause();
+					break;
+				case 4:
+					limpaTela();
+					aux_ListaIdades.entradaDeDados();
+					listaDeListas.push_back(&aux_ListaIdades);
+					cout << "Registro adicionado com sucesso!" << endl;
+					pause();
+					break;
+				case 0:
+					break;
+				default:
+					limpaTela();
+					cout << "Opção invalida!" << endl;
+					cout << "Escolha uma opção valida !!" << endl;
+					pause();
+				}
+			} while (opc != 0);
+			break;
+		case 2:
+			do
+			{
+				opc = menuTipoLista(" Visualizar Qual Tipo de Lista ?");
+				switch (opc)
+				{
+				case 1:
+					do
+					{
+						opc2 = menuVisualizarLista("Visualizar Lista de Datas");
+						switch (opc2)
+						{
+						case 1:
+							limpaTela();
+							cout << "################## Lista de Datas ################## " << endl;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaDatas))
+								{
+									cout << "Tamanho da Lista: " << l->size() << endl;
+									cout << "Itens ordenados :" << endl;
+									l->listarEmOrdem();
+									cout << "------------------------------------" << endl;
+									cout << "Dados da lista de Datas: " << endl;
+									l->mostraMediana();
+									l->mostraMenor();
+									l->mostraMaior();
 
+									cout << "+========================================================+" << endl;
+								}
+							}
+							pause();
+							break;
+						case 2:
+							limpaTela();
+							cout << "################## Lista de Datas ################## " << endl;
+							cout << "Informe quantos elementos deseja visualizar: ";
+							cin >> aux_Int;
+							cout << "Obs: Case a lista não possuir a quantidade de elementos informado, Listara todos os elementos dela." << endl;
+							aux_Int2 = 0;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaDatas))
+								{
+									if (aux_Int2 < aux_Int)
+									{
+										cout << "Tamanho da Lista: " << l->size() << endl;
+										aux_Int == 1 ? cout << "O primeiro elemento da lista " << aux_Int2 + 1 << "ª: " << endl : cout << "Os primeiros " << aux_Int << " elementos da lista " << aux_Int2 + 1 << "ª:" << endl;
+										l->listar_N_elementos(aux_Int);
+										cout << "------------------------------------" << endl;
+										cout << "Dados da lista de Datas: " << endl;
+										l->mostraMediana();
+										l->mostraMenor();
+										l->mostraMaior();
+
+										cout << "+========================================================+" << endl;
+									}
+									aux_Int2++;
+								}
+							}
+							pause();
+							break;
+						case 0:
+							break;
+						default:
+							limpaTela();
+							cout << "Opção invalida!" << endl;
+							cout << "Escolha uma opção valida !!" << endl;
+							pause();
+						}
+					} while (opc2 != 0);
+					break;
+				case 2:
+					do
+					{
+						opc2 = menuVisualizarLista("Visualizar Lista de Nomes");
+						switch (opc2)
+						{
+						case 1:
+							limpaTela();
+							cout << "################## Lista de Nomes ################## " << endl;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaNomes))
+								{
+									cout << "Tamanho da Lista: " << l->size() << endl;
+									cout << "Itens ordenados :" << endl;
+									l->listarEmOrdem();
+									cout << "------------------------------------" << endl;
+									cout << "Dados da lista de Nomes: " << endl;
+									l->mostraMediana();
+									l->mostraMenor();
+									l->mostraMaior();
+								}
+							}
+							cout << "+========================================================+" << endl;
+							pause();
+							break;
+						case 2:
+							limpaTela();
+							cout << "################## Lista de Nomes ################## " << endl;
+							cout << "Informe quantos elementos deseja visualizar: ";
+							cin >> aux_Int;
+							cout << "Obs: Case a lista não possuir a quantidade de elementos informado, Listara todos os elementos dela." << endl;
+							aux_Int2 = 0;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaNomes))
+								{
+									if (aux_Int2 < aux_Int)
+									{
+										cout << "Tamanho da Lista: " << l->size() << endl;
+										aux_Int == 1 ? cout << "O primeiro elemento da lista " << aux_Int2 + 1 << "ª: " << endl : cout << "Os primeiros " << aux_Int << " elementos da lista " << aux_Int2 + 1 << "ª:" << endl;
+										l->listar_N_elementos(aux_Int);
+										cout << "------------------------------------" << endl;
+										cout << "dados da lista de Nomes: " << endl;
+										l->mostraMediana();
+										l->mostraMenor();
+										l->mostraMaior();
+
+										cout << "+========================================================+" << endl;
+									}
+									aux_Int2++;
+								}
+							}
+							pause();
+							break;
+						case 0:
+							break;
+						default:
+							limpaTela();
+							cout << "Opção invalida!" << endl;
+							cout << "Escolha uma opção valida !!" << endl;
+							pause();
+						}
+					} while (opc2 != 0);
+					break;
+				case 3:
+					do
+					{
+						opc2 = menuVisualizarLista("Visualizar Lista de Salários");
+						switch (opc2)
+						{
+						case 1:
+							limpaTela();
+							cout << "################## Lista de Salários ################## " << endl;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaSalarios))
+								{
+									cout << "Tamanho da Lista: " << l->size() << endl;
+									cout << "Itens ordenados :" << endl;
+									l->listarEmOrdem();
+									cout << "------------------------------------" << endl;
+									cout << "dados da lista de Salários: " << endl;
+									l->mostraMediana();
+									l->mostraMenor();
+									l->mostraMaior();
+
+									cout << "+========================================================+" << endl;
+								}
+							}
+							pause();
+							break;
+						case 2:
+							limpaTela();
+							cout << "################## Lista de Salários ################## " << endl;
+							cout << "Informe quantos elementos deseja visualizar: ";
+							cin >> aux_Int;
+							cout << "Obs: Case a lista não possuir a quantidade de elementos informado, Listara todos os elementos dela." << endl;
+							aux_Int2 = 0;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaSalarios))
+								{
+									if (aux_Int2 < aux_Int)
+									{
+										cout << "Tamanho da Lista: " << l->size() << endl;
+										aux_Int == 1 ? cout << "O primeiro elemento da lista " << aux_Int2 + 1 << "ª: " << endl : cout << "Os primeiros " << aux_Int << " elementos da lista " << aux_Int2 + 1 << "ª:" << endl;
+										l->listar_N_elementos(aux_Int);
+										cout << "------------------------------------" << endl;
+										cout << "dados da lista de Salários: " << endl;
+										l->mostraMediana();
+										l->mostraMenor();
+										l->mostraMaior();
+
+										cout << "+========================================================+" << endl;
+									}
+									aux_Int2++;
+								}
+							}
+							pause();
+							break;
+						case 0:
+							break;
+						default:
+							limpaTela();
+							cout << "Opção invalida!" << endl;
+							cout << "Escolha uma opção valida !!" << endl;
+							pause();
+						}
+					} while (opc2 != 0);
+					break;
+				case 4:
+					do
+					{
+						opc2 = menuVisualizarLista("Visualizar Lista de Idades");
+						switch (opc2)
+						{
+						case 1:
+							limpaTela();
+							cout << "################## Lista de Idades ################## " << endl;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaIdades))
+								{
+									cout << "Tamanho da Lista: " << l->size() << endl;
+									cout << "Itens ordenados :" << endl;
+									l->listarEmOrdem();
+									cout << "------------------------------------" << endl;
+									cout << "dados da lista de Idades: " << endl;
+									l->mostraMediana();
+									l->mostraMenor();
+									l->mostraMaior();
+
+									cout << "+========================================================+" << endl;
+								}
+							}
+							pause();
+							break;
+						case 2:
+							limpaTela();
+							cout << "################## Lista de Idades ################## " << endl;
+							cout << "Informe quantos elementos deseja visualizar: ";
+							cin >> aux_Int;
+							cout << "Obs: Case a lista não possuir a quantidade de elementos informado, Listara todos os elementos dela." << endl;
+							aux_Int2 = 0;
+							for (Lista *l : listaDeListas)
+							{
+								if (typeid(*l) == typeid(ListaIdades))
+								{
+									if (aux_Int2 < aux_Int)
+									{
+										cout << "Tamanho da Lista: " << l->size() << endl;
+										aux_Int == 1 ? cout << "O primeiro elemento da lista " << aux_Int2 + 1 << "ª: " << endl : cout << "Os primeiros " << aux_Int << " elementos da lista " << aux_Int2 + 1 << "ª:" << endl;
+										l->listar_N_elementos(aux_Int);
+										cout << "------------------------------------" << endl;
+										cout << "dados da lista de Idades: " << endl;
+										l->mostraMediana();
+										l->mostraMenor();
+										l->mostraMaior();
+
+										cout << "+========================================================+" << endl;
+									}
+									aux_Int2++;
+								}
+							}
+							pause();
+							break;
+						case 0:
+							break;
+						default:
+							limpaTela();
+							cout << "Opção invalida!" << endl;
+							cout << "Escolha uma opção valida !!" << endl;
+							pause();
+						}
+					} while (opc2 != 0);
+					break;
+				case 0:
+					break;
+				default:
+					limpaTela();
+					cout << "Opção invalida!" << endl;
+					cout << "Escolha uma opção valida !!" << endl;
+					pause();
+				}
+			} while (opc != 0);
+			break;
+		case 0:
+			break;
+		default:
+			limpaTela();
+			cout << "Opção invalida!" << endl;
+			cout << "Escolha uma opção valida !!" << endl;
+			pause();
+		}
+	} while (opcao != 0);
+	return 0;
 }
 
-void limpaTela(){
+void limpaTela()
+{
 	cin.clear();
 
 	// Verifica se a variável de ambiente WINDIR está definida (ambiente Windows)
@@ -275,6 +599,87 @@ void pause()
 	cin.ignore();
 	cout << "\nPressione a tecla Enter para continuar...\n";
 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+}
+
+int menuPrincipal()
+{
+	int opcao, n = 0;
+	limpaTela();
+	do
+	{
+		if (n != 0)
+		{
+			limpaTela();
+			cout << "Opçao invalida!" << endl;
+			cout << "Escolha uma opcao valida !!" << endl;
+		}
+		cout << "\n########################################" << endl;
+		cout << "######## BEM VINDO A DATA FRUTA ########" << endl;
+		cout << "########################################\n"
+			 << endl;
+
+		cout << "1 - Registrar Lista" << endl;
+		cout << "2 - Visualizar Lista" << endl;
+		cout << "0 - Sair" << endl;
+
+		cout << "Escolha uma opção: ";
+		cin >> opcao;
+		n++;
+
+	} while (opcao < 0 || opcao > 2);
+	return opcao;
+}
+
+int menuTipoLista(string str)
+{
+	int opcao, n = 0;
+	limpaTela();
+	do
+	{
+		cout << str << endl;
+		if (n != 0)
+		{
+			limpaTela();
+			cout << "Opçao invalida!" << endl;
+			cout << "Escolha uma opcao valida !!" << endl;
+		}
+		cout << "1 - Lista de Datas" << endl;
+		cout << "2 - Lista de Nomes" << endl;
+		cout << "3 - Lista de Salários" << endl;
+		cout << "4 - Lista de Idades" << endl;
+		cout << "0 - Voltar" << endl;
+
+		cout << "Escolha uma opção: ";
+		cin >> opcao;
+		n++;
+
+	} while (opcao < 0 || opcao > 4);
+	return opcao;
+}
+
+int menuVisualizarLista(string str)
+{
+	int opcao, n = 0;
+	limpaTela();
+	cout << str << endl;
+	do
+	{
+		if (n != 0)
+		{
+			limpaTela();
+			cout << "Opçao invalida!" << endl;
+			cout << "Escolha uma opcao valida !!" << endl;
+		}
+		cout << "1 - Visualizar Lista em Ordenada" << endl;
+		cout << "2 - Visualizar 'N' Primeiros da Lista" << endl;
+		cout << "0 - Voltar" << endl;
+
+		cout << "Escolha uma opcao: ";
+		cin >> opcao;
+		n++;
+
+	} while (opcao < 0 || opcao > 2);
+	return opcao;
 }
 
 ///////////////////////////////////////////////////////////////////
@@ -359,7 +764,6 @@ int ListaSalarios::size()
 {
 	return lista.size();
 }
-
 ///////////////////////////////////////////////////////////////////
 ///// FINAL IMPLEMENTACAO DOS METODOS DA CLASSE ListaSalarios /////
 ///////////////////////////////////////////////////////////////////
