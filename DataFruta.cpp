@@ -69,18 +69,16 @@ class ListaNomes : public Lista {
 			cout << "A lista esta vazia. Nao ha mediana a ser mostrada." << endl;
 			return;
 		}		
-		string nomeMediana;
 		int media=0;
 		int tamanho = lista.size();
 		if (tamanho % 2 == 0) {
 			media = tamanho / 2 - 1;
-			cout << "A mediana e " <<  media;
-			cout << " com o nome  " << lista[media] << endl;
+			cout << " " <<  media;
+			cout << "A mediana e " << lista[media] << endl;
 		}
 		else {
 			media = tamanho / 2;
-			cout << "A mediana e " <<  media ;
-			cout << " com o nome  " << lista[media] << endl;			
+			cout << "A mediana e " << lista[media] << endl;			
 		}
 	}
 	
