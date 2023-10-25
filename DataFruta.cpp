@@ -53,6 +53,7 @@ class Lista {
 	virtual void mostraMenor() =0;
 	virtual void mostraMaior() =0;
 	virtual void  listarEmOrdem() =0;
+	virtual void listar_N_elementos(int) = 0;
 	virtual ~Lista() {}
 };
 
@@ -82,6 +83,7 @@ class ListaDatas: public Lista {
 	void mostraMenor() override;
 	void mostraMaior() override;
 	void listarEmOrdem() override;
+	void listar_N_elementos(int n) override;
 };
 
 
@@ -184,7 +186,8 @@ int main () {
 	listaDatas.mostraMenor();
 	listaDatas.mostraMaior();
 	listaDatas.mostraMediana();
-	listaDatas.ordenacao();
+	listaDatas.listarEmOrdem();
+	listaDatas.listar_N_elementos(2);
 
 
 	
@@ -314,21 +317,19 @@ void ListaDatas::ordenacao(){
             lista[i] = lista[indiceMenor];
             lista[indiceMenor] = aux;
         }
-    }
-	for (int i = 0; i < n; i++) {
-        cout << lista[i].toString() << endl; // Assumindo que você tem um método toString em sua classe Data
-    }
-	
+    }	
 }
 
 void ListaDatas::mostraMediana(){
 	int tam = lista.size();
-	Data dataMediana;
 	this->ordenacao();
 	
-	dataMediana = lista[(tam/2)];
-
-	cout <<"Data Mediana: "<< dataMediana.toString() << endl;
+	if(tam %2 ==0){
+		cout <<"Data Mediana: "<< lista[(tam/2)-1].toString() << endl;
+	}else{
+		cout <<"Data Mediana: "<< lista[(tam/2)].toString() << endl;
+	}
+	
 }
 
 void ListaDatas::mostraMenor() {
@@ -337,7 +338,6 @@ void ListaDatas::mostraMenor() {
 		if(data.getAno() < menorData.getAno() || (data.getAno() == menorData.getAno() && 
 			(data.getMes() < menorData.getMes() || data.getMes() == menorData.getMes() && data.getDia() < menorData.getDia()))){
 			menorData = data;
-		
 		}
 	}
 	cout <<"Data Menor: "<< menorData.toString() << endl;
@@ -348,7 +348,6 @@ void ListaDatas::mostraMaior() {
 		if(data.getAno() > maiorData.getAno() || (data.getAno() == maiorData.getAno() && 
 			(data.getMes() > maiorData.getMes() || data.getMes() == maiorData.getMes() && data.getDia() > maiorData.getDia()))){
 			maiorData = data;
-		
 		}
 	}
 	cout <<"Data Maior: "<< maiorData.toString() << endl;
@@ -358,7 +357,21 @@ void ListaDatas::mostraMaior() {
 void ListaDatas::listarEmOrdem(){
 	int tam = lista.size();
 	this->ordenacao();
-	for(int i = tam - 1; i >= 0; --i){
+	cout<<" Lista Datas Ordenada:" << endl;
+	for(int i = 0; i < tam; i++){
+		cout << lista[i].toString() << endl;
+	}
+	cout << endl;
+
+}
+
+void ListaDatas::listar_N_elementos(int n) {
+	cout<<" Lista de Datas" << endl;
+	if (n < 0 || n > lista.size()) {
+        cout << "Numero invalido de elementos a serem listados." << endl;
+        return;
+    }
+	for (int i = 0; i < n; i++) {
 		cout << lista[i].toString() << endl;
 	}
 }
