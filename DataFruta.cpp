@@ -162,29 +162,13 @@ O m�todo abaixo pergunta ao usu�rios quantos
 elementos v�o existir na lista e depois
 solicita a digita��o de cada um deles
 */
-	void entradaDeDados()
-	{
-	}
-
-	void mostraMediana()
-	{
-		cout << "Aqui vai mostrar a mediana da lista de idades" << endl;
-	}
-
-	void mostraMenor()
-	{
-		cout << "Aqui vai mostrar a menor das idades" << endl;
-	}
-	void mostraMaior()
-	{
-		cout << "aqui vai mostrar a maior das idades" << endl;
-	}
-
-	void listarEmOrdem() override{}
-
-	void listar_N_elementos(int n) override{}
-
-	int size() override{}
+	void entradaDeDados() override;
+	void mostraMediana() override;
+	void mostraMenor() override;
+	void mostraMaior() override;
+	void listarEmOrdem() override;
+	void listar_N_elementos(int) override;
+	int size() override;
 };
 
 int menuPrincipal();
@@ -821,4 +805,67 @@ void ListaNomes::entradaDeDados() {
 	}
 ///////////////////////////////////////////////////////////////////
 ///// FINAL IMPLEMENTACAO DOS METODOS DA CLASSE ListaNomes /////
+///////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////
+/////// IMPLEMENTACAO DOS METODOS DA CLASSE ListaIdades /////////
+///////////////////////////////////////////////////////////////////
+
+void ListaIdades::entradaDeDados(){
+	lista.clear();
+	int quantidade;
+	cout<<"Quantos elementos vao existir na lista de idades: ";
+	cin>>quantidade;
+	for(int i = 1; i <= quantidade; i++){
+		cout<<"Valor "<<i<<": ";
+		int valor;
+		cin>>valor;
+		lista.push_back(valor);
+	}
+}
+
+void ListaIdades::mostraMediana(){
+	vector<int> listaOrdenada = lista;
+	sort(listaOrdenada.begin(), listaOrdenada.end());
+	int mediana;
+	if(size() % 2 == 0) mediana = (listaOrdenada[size() / 2 - 1] + listaOrdenada[size() / 2]) / 2;
+	else mediana = listaOrdenada[size() / 2];
+	cout <<"Mediana de idades = " << mediana << endl;
+}
+
+void ListaIdades::mostraMenor(){
+	int menor = lista[0];
+	for(int i = 1; i < size(); i++) 
+		if(lista[i] < menor) menor = lista[i];
+
+	cout<<"Menor valor de idade = "<<menor<<endl;
+}
+
+void ListaIdades::mostraMaior(){
+	int maior = lista[0];
+	for(int i = 1; i < size(); i++) 
+		if(lista[i] > maior) maior = lista[i];
+
+	cout<<"Maior valor de idade = "<<maior<<endl;
+}
+
+void ListaIdades::listarEmOrdem(){
+	vector<int> listaOrdenada = lista;
+	sort(listaOrdenada.begin(), listaOrdenada.end());
+	cout<<"Lista de idades ordenada:"<<endl;
+	for(int idade : listaOrdenada) cout<<idade<<endl;
+}
+
+void ListaIdades::listar_N_elementos(int n){
+	if(n > size()) n = size();
+	cout<<"Listando os "<<n<<" primeiros elementos da lista de idades:"<<endl;
+	for(int i = 0; i < n; i++) cout<<lista[i]<<endl;
+}
+
+int ListaIdades::size(){
+	return lista.size();
+}
+
+///////////////////////////////////////////////////////////////////
+///// FINAL IMPLEMENTACAO DOS METODOS DA CLASSE ListaIdades /////
 ///////////////////////////////////////////////////////////////////
