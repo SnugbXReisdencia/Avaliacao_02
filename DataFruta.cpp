@@ -41,6 +41,8 @@ class Lista {
 	virtual void mostraMenor() =0;
 	virtual void mostraMaior() =0;
 	virtual void listarEmOrdem() =0;
+	virtual void listar_N_elementos(int) = 0;
+	virtual int size() = 0;
 };
 
 class ListaNomes : public Lista {
@@ -116,6 +118,14 @@ class ListaNomes : public Lista {
 		for (const string& nome : lista) {
 			cout << nome << endl;
 		}
+	}
+	virtual void listar_N_elementos(int n) {
+		for (int i = 0; i < n; i++) {
+			cout << lista[i] << endl;
+		}
+	}
+	virtual int size() {
+		return lista.size();
 	}
 };
 
@@ -205,8 +215,11 @@ int main () {
 	listaNomes.entradaDeDados();
 	listaDeListas.push_back(&listaNomes);
 
-	
 
+	cout << "digite o tamanho N da lista" << endl;
+	int N;
+	cin >> N;
+	listaNomes.listar_N_elementos(N);
 	
 	
 	// ListaDatas listaDatas;
