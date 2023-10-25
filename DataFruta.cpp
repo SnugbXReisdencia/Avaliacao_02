@@ -3,6 +3,7 @@
 #include <vector>
 #include <typeinfo>
 #include <limits>
+#include <algorithm>
 
 using namespace std;
 
@@ -77,45 +78,14 @@ public:
 	elementos v�o existir na lista e depois
 	solicita a digita��o de cada um deles
 	*/
-	void entradaDeDados()
-	{
-		lista.push_back("Teste3");
-		lista.push_back("Teste1");
-		lista.push_back("Teste2");
-		lista.push_back("Teste");
-	}
+	void entradaDeDados() override;
+	void mostraMediana() override;
+	void mostraMenor() override;
+	void mostraMaior() override;
+	void listarEmOrdem() override;
+	void listar_N_elementos(int n) override;
 
-	void mostraMediana()
-	{
-		cout << "Aqui vai mostrar a mediana da lista de strings" << endl;
-	}
-
-	void mostraMenor()
-	{
-		cout << "Aqui vai mostrar o primeiro nome alfabeticamente" << endl;
-	}
-	void mostraMaior()
-	{
-		cout << "aqui vai mostrar o ultimo nome alfabeticamente" << endl;
-	}
-
-	void listarEmOrdem()
-	{
-		quicksort<string>(lista, 0, lista.size() - 1);
-		listar_N_elementos(lista.size());
-	}
-
-	void listar_N_elementos(int n)
-	{
-		int tam = lista.size();
-		for (int i = 0; i < tam; i++)
-		{
-			if (i < n)
-			{
-				cout << "Nome " << i + 1 << "ª: " << lista[i] << endl;
-			}
-		}
-	}
+	
 
 	int size()
 	{
@@ -766,4 +736,89 @@ int ListaSalarios::size()
 }
 ///////////////////////////////////////////////////////////////////
 ///// FINAL IMPLEMENTACAO DOS METODOS DA CLASSE ListaSalarios /////
+///////////////////////////////////////////////////////////////////
+
+///////////////////////////////////////////////////////////////////
+/////// IMPLEMENTACAO DOS METODOS DA CLASSE ListaNomes /////////
+///////////////////////////////////////////////////////////////////
+void ListaNomes::entradaDeDados() {
+		cout << "Quantos nomes deseja inserir?" << endl;
+		int num;
+		cin >> num;
+		for (int i = 0; i < num; i++) {
+			string nome;
+			cout << "Digite o " << i+1 << " nome: " << endl; cin >> nome;
+			lista.push_back(nome);
+		}
+	}
+		
+	void ListaNomes::mostraMediana() {
+		if(lista.empty()) {
+			cout << "A lista esta vazia. Nao ha mediana a ser mostrada." << endl;
+			return;
+		}		
+		int media=0;
+		int tamanho = lista.size();
+		if (tamanho % 2 == 0) {
+			media = tamanho / 2 - 1;
+			cout << " " <<  media;
+			cout << "A mediana e " << lista[media] << endl;
+		}
+		else {
+			media = tamanho / 2;
+			cout << "A mediana e " << lista[media] << endl;			
+		}
+	}
+	
+	void ListaNomes::mostraMenor() {
+		if (lista.empty()) {
+			cout << "A lista esta vazia. Nao ha nome a ser mostrado." << endl;
+			return;
+		}
+		string menorNome = lista[0];
+		for (const string& nome : lista) {
+			if (nome < menorNome) {
+				menorNome = nome;
+			}
+		}
+		cout << "O Menor nome alfabeticamente e: " << menorNome << endl;
+
+	
+	}
+	void ListaNomes::mostraMaior() {
+		if (lista.empty()) {
+        cout << "A lista esta vazia. Nao ha nome a ser mostrado." << endl;
+        return;
+		}
+		string maiorNome = lista[0];
+		for (const string& nome : lista) {
+			if (nome > maiorNome) {
+				maiorNome = nome;
+			}
+		}
+		cout << "O Maior nome alfabeticamente e: " << maiorNome << endl;
+	}
+
+
+
+	void ListaNomes::listarEmOrdem()  {
+		sort(lista.begin(), lista.end());
+		for (const string& nome : lista) {
+			cout << nome << endl;
+		}
+	}
+
+	void ListaNomes::listar_N_elementos(int n)
+	{
+		int tam = lista.size();
+		for (int i = 0; i < tam; i++)
+		{
+			if (i < n)
+			{
+				cout << "Nome " << i + 1 << "ª: " << lista[i] << endl;
+			}
+		}
+	}
+///////////////////////////////////////////////////////////////////
+///// FINAL IMPLEMENTACAO DOS METODOS DA CLASSE ListaNomes /////
 ///////////////////////////////////////////////////////////////////
